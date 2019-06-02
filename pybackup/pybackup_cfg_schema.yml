@@ -1,0 +1,21 @@
+backup_type: enum('rsync', required=True)
+
+backup_paths: list(include('backup_path_dict'), min=1)
+
+backup_exclude_paths: list(path, required=False, none=False)
+
+backup_ignore_files: list(str(), required=False, none=False)
+
+log_level: enum('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL', required=True)
+
+backup_period: int(min=5, required=True)
+
+backup_host: ip(version=4, required=True)
+
+backup_host_user: str(required=True)
+
+---
+backup_path_dict:
+  local_path: path()
+  remote_path: str()
+  

@@ -1,0 +1,45 @@
+# specify the type of backup rsync|file
+# please note in this version only rsync is supported
+backup_type: rsync
+
+# specify where to backup a local path on remote path
+backup_paths: 
+  - {local_path: '/your/own/local/path1', remote_path: '/your/own/remote/path1/'}
+  - {local_path: '/your/own/local/path2', remote_path: '/your/own/remote/path2/'}
+
+# list of local path to exclude from backup 
+# this is a file glob pattern
+backup_exclude_paths:
+  - 'Sublime Text Build 3126 x64/*'
+
+# list of file to ignore 
+# each line is a regex
+backup_ignore_files:
+  - .*\.swp$
+  - .*\.swpx$
+  - .*~$
+  - .*~\$.*
+  - .*~WRL.*\.tmp$
+  - .*~WRD.*\.tmp$
+  - .*Sublime Text Build.*
+  - .*pybackup\.log
+
+# define the log level DEBUG|INFO|WARNING|ERROR|CRITICAL
+# log file is located in ~/pybackup.log
+log_level: INFO
+
+# backup period in seconds
+backup_period: 10
+
+# backup server IP address
+backup_host: 192.168.100.100
+
+# backup server ssh user
+# please note that it is assumed that ssh 
+# between your localhost and remote server
+# does not require a password 
+#
+# I suggest to add your localhost ssh key 
+# to your remote server for security
+backup_host_user: pi
+
