@@ -8,7 +8,7 @@ import os
 class ColorLogger():
     def __init__(self):
         self._log = logging.getLogger()
-        self._logFileHandler = TRFH(os.path.expanduser("~/pybackup.log"),
+        self._logFileHandler = TRFH(os.path.expanduser("~/.pybackup.log"),
                                     when="D",
                                     interval=1)
 

@@ -63,6 +63,11 @@ class BackupManager(RegexMatchingEventHandler):
         can_continue = True
         dir_backlog = self._get_dirs_from_backlog()
 
+        log.info("##### DIRECTORY TO BACKUP #####")
+        for dir in dir_backlog:
+            log.info(dir)
+        log.info("##########################")
+
         if len(dir_backlog) == 0:
             log.info("Thread {} no dir to synchronize".format(id))
         else:
@@ -76,6 +81,12 @@ class BackupManager(RegexMatchingEventHandler):
     def _synch_files(self):
         id = threading.current_thread().name
         file_backlog = self._get_files_from_backlog()
+
+        log.info("##### FILE TO BACKUP #####")
+        for file in file_backlog:
+            log.info(file)
+        log.info("##########################")
+
         file_backlog_keys = list(file_backlog.keys())
         if len(file_backlog_keys) == 0:
             log.info("Thread {} no file to backup".format(id))
@@ -99,6 +110,8 @@ class BackupManager(RegexMatchingEventHandler):
             self._synch_files()
 
     def on_any_event(self, event):
+        if event.event_type == 'modified' and event.is_directory:
+            return
         if event.event_type != 'moved':
             log.info("File Event - {} - {}".format(event.event_type,
                                                    event.src_path))
@@ -121,6 +134,8 @@ class BackupManager(RegexMatchingEventHandler):
     def on_created(self, event):
         if os.path.isdir(event.src_path):
             self._add_dir_observer(event.src_path)
+        else:
+            self._file_backlog[event.src_path] = event.event_type
 
     def on_deleted(self, event):
         if event.src_path not in self._file_backlog:
